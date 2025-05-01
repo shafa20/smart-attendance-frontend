@@ -4,6 +4,7 @@ import './App.css';
 import StudentDashboard from './StudentDashboard';
 import InstructorDashboard from './InstructorDashboard';
 import AdminDashboard from './AdminDashboard';
+import RequireAuth from './RequireAuth';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -112,9 +113,21 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/dashboard/student" element={<StudentDashboard />} />
-        <Route path="/dashboard/instructor" element={<InstructorDashboard />} />
-        <Route path="/dashboard/admin" element={<AdminDashboard />} />
+        <Route path="/dashboard/student" element={
+          <RequireAuth>
+            <StudentDashboard />
+          </RequireAuth>
+        } />
+        <Route path="/dashboard/instructor" element={
+          <RequireAuth>
+            <InstructorDashboard />
+          </RequireAuth>
+        } />
+        <Route path="/dashboard/admin" element={
+          <RequireAuth>
+            <AdminDashboard />
+          </RequireAuth>
+        } />
       </Routes>
     </Router>
   );
