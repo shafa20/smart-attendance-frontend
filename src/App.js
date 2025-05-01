@@ -114,17 +114,17 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/dashboard/student" element={
-          <RequireAuth>
+          <RequireAuth role="student">
             <StudentDashboard />
           </RequireAuth>
         } />
         <Route path="/dashboard/instructor" element={
-          <RequireAuth>
+          <RequireAuth role="instructor">
             <InstructorDashboard />
           </RequireAuth>
         } />
         <Route path="/dashboard/admin" element={
-          <RequireAuth>
+          <RequireAuth role="admin">
             <AdminDashboard />
           </RequireAuth>
         } />
