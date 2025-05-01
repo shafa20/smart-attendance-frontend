@@ -132,6 +132,17 @@ body, html {
   100% { transform: rotate(360deg); }
 }
 
+.dashboard-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #4f46e5;
+  background: linear-gradient(120deg, #e0e7ff 0%, #f0f5ff 50%, #c7d2fe 100%);
+}
+
 .App {
   text-align: center;
 }

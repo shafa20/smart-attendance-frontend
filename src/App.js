@@ -1,20 +1,48 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
+import StudentDashboard from './StudentDashboard';
+import InstructorDashboard from './InstructorDashboard';
+import AdminDashboard from './AdminDashboard';
 
-function App() {
+function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setTimeout(() => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
       setLoading(false);
-      setError('Invalid credentials.');
-    }, 1500);
+      if (response.ok && data.user && data.user.role) {
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        if (data.user.role === 'student') {
+          navigate('/dashboard/student');
+        } else if (data.user.role === 'instructor') {
+          navigate('/dashboard/instructor');
+        } else if (data.user.role === 'admin') {
+          navigate('/dashboard/admin');
+        } else {
+          setError('Unknown role.');
+        }
+      } else {
+        setError(data.message || 'Invalid credentials.');
+      }
+    } catch (err) {
+      setLoading(false);
+      setError('Network error.');
+    }
   };
 
   return (
@@ -76,6 +104,19 @@ function App() {
         </div>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/dashboard/student" element={<StudentDashboard />} />
+        <Route path="/dashboard/instructor" element={<InstructorDashboard />} />
+        <Route path="/dashboard/admin" element={<AdminDashboard />} />
+      </Routes>
+    </Router>
   );
 }
 
