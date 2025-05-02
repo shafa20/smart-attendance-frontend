@@ -108,7 +108,7 @@ function AdminDashboard() {
         <div style={{ maxWidth: 900, margin: '0 auto', background: '#fff', borderRadius: 16, boxShadow: '0 4px 24px rgba(60,72,88,0.10)', padding: '2.5rem 2.5rem 2rem 2.5rem' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
             <h2 style={{ margin: 0, fontWeight: 700, color: '#4f46e5', fontSize: '2.5rem', letterSpacing: '-1px' }}>Admin Dashboard</h2>
-            <div style={{ color: '#64748b', fontSize: '1.15rem', marginTop: 4, marginBottom: 18, fontWeight: 500 }}>Test All Batches</div>
+            <div style={{ color: '#64748b', fontSize: '1.15rem', marginTop: 4, marginBottom: 18, fontWeight: 500 }}>All Batches</div>
             <button
               onClick={handleExport}
               disabled={exporting}
@@ -127,7 +127,7 @@ function AdminDashboard() {
                 transition: 'background 0.2s, box-shadow 0.2s'
               }}
             >
-              {exporting ? 'Exporting...' : 'Export Attendance Data'}
+              {exporting ? 'Exporting...' : 'Clich Here To Export All Batch Attendance'}
             </button>
           </div>
           {loading ? (
