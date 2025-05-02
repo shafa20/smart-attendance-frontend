@@ -5,6 +5,7 @@ import StudentDashboard from './StudentDashboard';
 import InstructorDashboard from './InstructorDashboard';
 import AdminDashboard from './AdminDashboard';
 import RequireAuth from './RequireAuth';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,8 +28,7 @@ function LoginPage() {
       const data = await response.json();
       setLoading(false);
       if (response.ok && data.user && data.user.role) {
-        localStorage.setItem('access_token', data.access_token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        login(data.access_token, data.user);
         if (data.user.role === 'student') {
           navigate('/dashboard/student');
         } else if (data.user.role === 'instructor') {
@@ -110,26 +111,38 @@ function LoginPage() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/dashboard/student" element={
-          <RequireAuth role="student">
-            <StudentDashboard />
-          </RequireAuth>
-        } />
-        <Route path="/dashboard/instructor" element={
-          <RequireAuth role="instructor">
-            <InstructorDashboard />
-          </RequireAuth>
-        } />
-        <Route path="/dashboard/admin" element={
-          <RequireAuth role="admin">
-            <AdminDashboard />
-          </RequireAuth>
-        } />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/dashboard/student"
+            element={
+              <RequireAuth>
+                <StudentDashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/dashboard/instructor"
+            element={
+              <RequireAuth>
+                <InstructorDashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/dashboard/admin"
+            element={
+              <RequireAuth>
+                <AdminDashboard />
+              </RequireAuth>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

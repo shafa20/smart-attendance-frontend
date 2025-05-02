@@ -6,15 +6,16 @@ function DashboardHeader() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('access_token');
+    localStorage.removeItem('token');
     localStorage.removeItem('user');
-    navigate('/');
+    navigate('/login');
   };
 
   return (
     <header className="dashboard-header">
       <div className="dashboard-header-content">
         <span className="dashboard-title">Smart Attendance</span>
+        <span className="user-name">{JSON.parse(localStorage.getItem('user'))?.name}</span>
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
     </header>
