@@ -105,30 +105,30 @@ function AdminDashboard() {
             <div style={{ textAlign: 'center', color: '#64748b', fontWeight: 500 }}>No batches found.</div>
           ) : (
             <div style={{ overflowX: 'auto', borderRadius: 12, boxShadow: '0 1px 4px rgba(60,72,88,0.07)' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', background: '#f8fafc', borderRadius: 12, overflow: 'hidden' }}>
-                <thead style={{ background: '#6366f1' }}>
-                  <tr>
-                    <th style={{ color: '#fff', padding: '0.85rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1.07rem', border: 'none' }}>ID</th>
-                    <th style={{ color: '#fff', padding: '0.85rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1.07rem', border: 'none' }}>Name</th>
-                    <th style={{ color: '#fff', padding: '0.85rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1.07rem', border: 'none' }}>Course</th>
-                    <th style={{ color: '#fff', padding: '0.85rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1.07rem', border: 'none' }}>Start Date</th>
-                    <th style={{ color: '#fff', padding: '0.85rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1.07rem', border: 'none' }}>End Date</th>
-                    <th style={{ color: '#fff', padding: '0.85rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1.07rem', border: 'none' }}>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {batches.map(batch => (
-                    <tr key={batch.id} style={{ background: '#fff', borderBottom: '1px solid #e0e7ef', transition: 'background 0.18s' }}>
-                      <td style={{ padding: '0.75rem', textAlign: 'center', fontWeight: 500 }}>{batch.id}</td>
-                      <td style={{ padding: '0.75rem', textAlign: 'center' }}>{batch.name}</td>
-                      <td style={{ padding: '0.75rem', textAlign: 'center' }}>{batch.course_name}</td>
-                      <td style={{ padding: '0.75rem', textAlign: 'center' }}>{batch.start_date ? batch.start_date.slice(0, 10) : ''}</td>
-                      <td style={{ padding: '0.75rem', textAlign: 'center' }}>{batch.end_date ? batch.end_date.slice(0, 10) : ''}</td>
-                      <td style={{ padding: '0.75rem', textAlign: 'center', color: batch.status === 'completed' ? '#22c55e' : '#f59e42', fontWeight: 600 }}>{batch.status}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <table style={{ width: '100%', borderCollapse: 'collapse', background: '#f8fafc', borderRadius: 12, overflow: 'hidden', fontSize: '0.98rem', border: '1px solid #e0e7ef' }}>
+  <thead style={{ background: '#6366f1' }}>
+    <tr>
+      <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>ID</th>
+      <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>Name</th>
+      <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>Course</th>
+      <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>Start Date</th>
+      <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>End Date</th>
+      <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {batches.map(batch => (
+      <tr key={batch.id} style={{ background: '#fff', borderBottom: '1px solid #e0e7ef', transition: 'background 0.18s' }}>
+        <td style={{ padding: '0.48rem', textAlign: 'center', fontWeight: 500 }}>{batch.id}</td>
+        <td style={{ padding: '0.48rem', textAlign: 'center' }}>{batch.name}</td>
+        <td style={{ padding: '0.48rem', textAlign: 'center' }}>{batch.course_name}</td>
+        <td style={{ padding: '0.48rem', textAlign: 'center' }}>{batch.start_date ? batch.start_date.slice(0, 10) : ''}</td>
+        <td style={{ padding: '0.48rem', textAlign: 'center' }}>{batch.end_date ? batch.end_date.slice(0, 10) : ''}</td>
+        <td style={{ padding: '0.48rem', textAlign: 'center', color: batch.status === 'completed' ? '#22c55e' : '#f59e42', fontWeight: 600 }}>{batch.status}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
             </div>
           )}
         </div>
