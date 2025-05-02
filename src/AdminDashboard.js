@@ -9,6 +9,7 @@ function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [exporting, setExporting] = useState(false);
+  const [exportingBatchId, setExportingBatchId] = useState(null);
   const { token } = useAuth();
 
   useEffect(() => {
@@ -35,6 +36,38 @@ function AdminDashboard() {
         setLoading(false);
       });
   }, [token]);
+
+  // Batch-wise export handler
+  const handleBatchExport = async (batchId) => {
+    setExportingBatchId(batchId);
+    try {
+      const response = await fetch(`http://localhost:8000/api/batches/export-attendance/${batchId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!response.ok) throw new Error('Failed to export attendance');
+      const blob = await response.blob();
+      let filename = `attendance_export_batch_${batchId}.csv`;
+      const disposition = response.headers.get('Content-Disposition');
+      if (disposition && disposition.indexOf('filename=') !== -1) {
+        const match = disposition.match(/filename=([^;]+)/);
+        if (match && match[1]) filename = match[1].replace(/"/g, '');
+      }
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Error exporting batch attendance: ' + err.message);
+    }
+    setExportingBatchId(null);
+  };
 
   const handleExport = async () => {
     setExporting(true);
@@ -114,6 +147,7 @@ function AdminDashboard() {
       <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>Start Date</th>
       <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>End Date</th>
       <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>Status</th>
+      <th style={{ color: '#fff', padding: '0.6rem', fontWeight: 700, letterSpacing: '0.02em', fontSize: '1rem', border: 'none' }}>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -125,6 +159,27 @@ function AdminDashboard() {
         <td style={{ padding: '0.48rem', textAlign: 'center' }}>{batch.start_date ? batch.start_date.slice(0, 10) : ''}</td>
         <td style={{ padding: '0.48rem', textAlign: 'center' }}>{batch.end_date ? batch.end_date.slice(0, 10) : ''}</td>
         <td style={{ padding: '0.48rem', textAlign: 'center', color: batch.status === 'completed' ? '#22c55e' : '#f59e42', fontWeight: 600 }}>{batch.status}</td>
+        <td style={{ padding: '0.48rem', textAlign: 'center' }}>
+          <button
+            onClick={() => handleBatchExport(batch.id)}
+            disabled={exportingBatchId === batch.id}
+            style={{
+              background: 'linear-gradient(90deg, #6366f1 0%, #4f46e5 100%)',
+              color: '#fff',
+              fontWeight: 600,
+              border: 'none',
+              borderRadius: '0.4rem',
+              padding: '0.38rem 1.2rem',
+              fontSize: '0.96rem',
+              cursor: exportingBatchId === batch.id ? 'not-allowed' : 'pointer',
+              opacity: exportingBatchId === batch.id ? 0.7 : 1,
+              boxShadow: '0 1px 4px rgba(99,102,241,0.09)',
+              transition: 'background 0.2s, box-shadow 0.2s'
+            }}
+          >
+            {exportingBatchId === batch.id ? 'Exporting...' : 'Export Attendance'}
+          </button>
+        </td>
       </tr>
     ))}
   </tbody>
