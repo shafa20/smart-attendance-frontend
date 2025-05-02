@@ -244,33 +244,55 @@ function InstructorDashboard() {
   
         {/* Modal */}
         {showModal && (
-          <div style={modalOverlay}>
-            <div style={modalBox}>
-              <h3>Create Schedule for {selectedBatch?.name}</h3>
-              <form onSubmit={handleSubmit}>
-                <div style={formGroup}>
-                  <label>Topic:</label>
-                  <input type="text" value={formData.topic} required
-                    onChange={e => setFormData({ ...formData, topic: e.target.value })} />
-                </div>
-                <div style={formGroup}>
-                  <label>Start Time:</label>
-                  <input type="datetime-local" value={formData.start_time} required
-                    onChange={e => setFormData({ ...formData, start_time: e.target.value })} />
-                </div>
-                <div style={formGroup}>
-                  <label>Duration (minutes):</label>
-                  <input type="number" min="1" value={formData.duration} required
-                    onChange={e => setFormData({ ...formData, duration: e.target.value })} />
-                </div>
-                <div style={{ textAlign: 'right', marginTop: 20 }}>
-                  <button type="submit" style={btnStyle('#4f46e5')}>Submit</button>
-                  <button type="button" style={btnStyle('#e74c3c')} onClick={closeModal}>Cancel</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+  <div style={modalOverlay}>
+    <div style={modalBox}>
+      <h2 style={{ marginBottom: 20, color: '#333' }}>Create Schedule</h2>
+      <p style={{ marginBottom: 25, fontWeight: 500 }}>
+        For Batch: <span style={{ color: '#4f46e5' }}>{selectedBatch?.name}</span>
+      </p>
+      <form onSubmit={handleSubmit}>
+        <div style={formGroup}>
+          <label style={labelStyle}>Topic</label>
+          <input
+            type="text"
+            value={formData.topic}
+            required
+            placeholder="please enter topic"
+            onChange={e => setFormData({ ...formData, topic: e.target.value })}
+            style={inputStyle}
+          />
+        </div>
+        <div style={formGroup}>
+          <label style={labelStyle}>Start Time</label>
+          <input
+            type="datetime-local"
+            value={formData.start_time}
+            required
+            onChange={e => setFormData({ ...formData, start_time: e.target.value })}
+            style={inputStyle}
+          />
+        </div>
+        <div style={formGroup}>
+          <label style={labelStyle}>Duration (minutes)</label>
+          <input
+            type="number"
+            min="1"
+            value={formData.duration}
+            required
+            placeholder="e.g. 60"
+            onChange={e => setFormData({ ...formData, duration: e.target.value })}
+            style={inputStyle}
+          />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 30 }}>
+          <button type="submit" style={btnStyle('#4f46e5')}>Submit</button>
+          <button type="button" style={btnStyle('#e74c3c')} onClick={closeModal}>Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
   
        
         {renderStats()}
@@ -299,21 +321,38 @@ function InstructorDashboard() {
   alignItems: 'center',
   justifyContent: 'center',
   zIndex: 1000
-  };
-  
-  const modalBox = {
+};
+
+const modalBox = {
   backgroundColor: 'white',
-  padding: 20,
-  borderRadius: 8,
-  width: '100%',
-  maxWidth: 400
-  };
-  
-  const formGroup = {
-  marginBottom: 12,
+  padding: '30px 25px',
+  borderRadius: 10,
+  width: '90%',
+  maxWidth: 500,
+  boxShadow: '0 8px 16px rgba(0,0,0,0.2)',
+};
+
+const formGroup = {
+  marginBottom: 20,
   display: 'flex',
   flexDirection: 'column'
-  };
+};
+
+const labelStyle = {
+  fontWeight: 'bold',
+  marginBottom: 6,
+  color: '#333'
+};
+
+const inputStyle = {
+  padding: '10px 12px',
+  borderRadius: 5,
+  border: '1px solid #ccc',
+  fontSize: 14
+};
+
+
+
   
 
 export default InstructorDashboard;
